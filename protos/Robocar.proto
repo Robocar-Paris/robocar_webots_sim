@@ -1,0 +1,114 @@
+#VRML_SIM R2025a utf8
+
+    PROTO Robocar [
+    field SFVec3f    translation  0 0.2 0
+    field SFRotation rotation     0 0 1 0
+    field SFString   name         "Robocar"
+    ]
+{
+Robot {
+translation IS translation
+    rotation IS rotation
+    name IS name
+    children [
+    # --- CHASSIS ---
+    DEF BODY_SHAPE Transform {
+translation 0 0.1 0
+    children [
+    Shape {
+appearance PBRAppearance {
+baseColor 0.8 0.5 0.1 # ORANGE (Nouvelle couleur physique)
+    roughness 0.5
+    metalness 0.5
+    }
+geometry Box {
+size 0.55 0.16 0.27 # Dimensions Tâche #25
+    }
+    }
+]
+    }
+
+# --- ROUES (Avec définition de la matière pour la friction) ---
+    # Nous ajoutons 'contactMaterial "wheel"' à chaque roue
+
+    # Roue 1
+    HingeJoint {
+jointParameters HingeJointParameters { axis 0 0 1 anchor 0.18 0.05 0.17 }
+device [ RotationalMotor { name "wheel1" } ]
+    endPoint Solid {
+name "front left wheel"
+    translation 0.18 0.05 0.17
+    rotation 0 0 1 0
+    contactMaterial "wheel" # Tâche #27 : On dit que c'est une roue
+    children [
+    DEF WHEEL_TRANSFORM Transform {
+rotation 1 0 0 1.5708
+    children [
+    Shape {
+appearance PBRAppearance { baseColor 0.1 0.1 0.1 }
+geometry Cylinder { height 0.05 radius 0.05 }
+    }
+]
+    }
+]
+    boundingObject USE WHEEL_TRANSFORM
+    physics Physics { density -1 mass 0.5 }
+    }
+    }
+
+# Roue 2
+    HingeJoint {
+jointParameters HingeJointParameters { axis 0 0 1 anchor 0.18 0.05 -0.17 }
+device [ RotationalMotor { name "wheel2" } ]
+    endPoint Solid {
+name "front right wheel"
+    translation 0.18 0.05 -0.17
+    rotation 0 0 1 0
+    contactMaterial "wheel" # Tâche #27
+children [ USE WHEEL_TRANSFORM ]
+    boundingObject USE WHEEL_TRANSFORM
+    physics Physics { density -1 mass 0.5 }
+    }
+    }
+
+# Roue 3
+    HingeJoint {
+jointParameters HingeJointParameters { axis 0 0 1 anchor -0.18 0.05 0.17 }
+device [ RotationalMotor { name "wheel3" } ]
+    endPoint Solid {
+name "rear left wheel"
+    translation -0.18 0.05 0.17
+    rotation 0 0 1 0
+    contactMaterial "wheel" # Tâche #27
+children [ USE WHEEL_TRANSFORM ]
+    boundingObject USE WHEEL_TRANSFORM
+    physics Physics { density -1 mass 0.5 }
+    }
+    }
+
+# Roue 4
+    HingeJoint {
+jointParameters HingeJointParameters { axis 0 0 1 anchor -0.18 0.05 -0.17 }
+device [ RotationalMotor { name "wheel4" } ]
+    endPoint Solid {
+name "rear right wheel"
+    translation -0.18 0.05 -0.17
+    rotation 0 0 1 0
+    contactMaterial "wheel" # Tâche #27
+    children [ USE WHEEL_TRANSFORM ]
+    boundingObject USE WHEEL_TRANSFORM
+    physics Physics { density -1 mass 0.5 }
+    }
+    }
+]
+
+    # PHYSIQUE DU CHASSIS (Tâche #26)
+    boundingObject USE BODY_SHAPE
+    physics Physics {
+density -1
+    mass 8.0  # La voiture pèse 8kg
+    centerOfMass [0 0.05 0] # On abaisse le centre de gravité pour la stabilité
+    }
+controller "<generic>"
+    }
+    }

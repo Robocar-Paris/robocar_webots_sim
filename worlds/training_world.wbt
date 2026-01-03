@@ -1,0 +1,53 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/road/protos/StraightRoadSegment.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "../protos/Robocar.proto"
+
+WorldInfo {
+  contactProperties [
+    ContactProperties {
+      material1 "wheel"
+      coulombFriction [
+        4
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.04096329635715595 0.8586348220929364 -0.5109483835388731 0.1862010147839878
+  position -4.310814885551728 0.4506253828574164 0.8990015687877331
+}
+TexturedBackgroundLight {
+}
+TexturedBackground {
+  texture "mars"
+}
+StraightRoadSegment {
+  translation 0 0.01 0
+}
+RectangleArena {
+  translation 0 -0.55 0
+  floorSize 10 10
+  floorTileSize 1 1
+}
+Robocar {
+  hidden position_0_0 -1.7462272686614842e-14
+  hidden position_0_1 -1.859874874345756e-12
+  hidden position_0_2 -1.7073969331368743e-14
+  hidden position_0_3 1.8601963994227915e-12
+  hidden linearVelocity_0 6.626778133364505e-18 -7.839302492293889e-17 -8.1887301475426e-19
+  hidden angularVelocity_0 2.587224095928721e-15 1.4201731375426e-16 -1.900800383471768e-18
+  hidden linearVelocity_1 6.302657577934541e-18 2.6816762481761315e-16 -1.1368683772161603e-16
+  hidden angularVelocity_1 2.5932514977519793e-15 9.18471534705759e-16 -1.9009023706309623e-18
+  hidden linearVelocity_2 6.948828373453923e-18 -7.872286856740218e-17 -1.1368683772161603e-16
+  hidden angularVelocity_2 2.07835516431573e-15 -1.263111469260153e-15 -1.9006450824615607e-18
+  hidden linearVelocity_3 6.30265748529504e-18 2.688518066117653e-16 0
+  hidden angularVelocity_3 1.793890919887189e-15 -3.300153914231732e-15 -1.900750715317175e-18
+  hidden linearVelocity_4 6.948828320516608e-18 -7.803868731588222e-17 -5.684341886080802e-17
+  hidden angularVelocity_4 2.0783551642110348e-15 -1.9449906329137215e-17 -1.9007428435145355e-18
+  translation 2.1412365055420515e-10 0.5018690512685162 -0.023923999999999994
+  rotation 1 -2.777963560621184e-12 -2.7779513528707585e-12 1.5707963267948961
+}
