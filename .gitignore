@@ -205,3 +205,137 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+
+# ==============================================================================
+# .gitignore - Fichiers à ne PAS inclure dans Git
+# ==============================================================================
+
+# === ROS 2 Build Artifacts ===
+# Ces dossiers sont générés par colcon build
+# Chaque développeur les génère localement
+build/
+install/
+log/
+
+# === Python ===
+# Cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environnements virtuels
+.Python
+env/
+venv/
+ENV/
+ros2_ai_env/
+.venv/
+
+# Eggs
+.eggs/
+*.egg-info/
+*.egg
+
+# Distribution / packaging
+dist/
+*.manifest
+*.spec
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# === IDE et Éditeurs ===
+# VS Code
+.vscode/
+*.code-workspace
+
+# JetBrains (PyCharm, CLion, etc.)
+.idea/
+*.iml
+*.iws
+
+# Vim
+*.swp
+*.swo
+*~
+.*.swp
+
+# Emacs
+*~
+\#*\#
+.#*
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# === Système d'exploitation ===
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+
+# === Webots ===
+# Fichiers de projet Webots (préférences locales)
+*.wbproj
+
+# === Logs et données temporaires ===
+*.log
+logs/
+tmp/
+temp/
+
+# === Modèles ML (trop gros pour Git) ===
+# Les modèles entraînés sont souvent très gros
+# Utilisez Git LFS ou un stockage externe
+models/*.zip
+models/*.pt
+models/*.pth
+models/*.onnx
+checkpoints/
+
+# === TensorBoard ===
+tensorboard_logs/
+runs/
+
+# === Données ===
+# Les datasets sont souvent trop gros
+data/
+datasets/
+*.csv
+*.json
+!config.json
+!package.json
+
+# === Secrets et configuration locale ===
+.env
+.env.local
+*.secret
+config.local.yaml
+
+# === Archives ===
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Exception : les fichiers nécessaires au projet
+!resource/robocar_driver
