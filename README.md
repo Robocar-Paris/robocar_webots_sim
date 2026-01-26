@@ -7,14 +7,12 @@ A ROS2-based robotic car simulator using Webots for training autonomous driving 
 - **Webots Integration**: Full physics simulation with 4-wheel differential drive
 - **ROS2 Architecture**: Communication via topics (`/cmd_vel`)
 - **External C++ Controller**: Non-blocking FIFO-based controller for real-time motor control
-- **Smooth Keyboard Control**: Progressive acceleration/deceleration for realistic movement
 - **Modular Design**: Separated keyboard input, ROS2 bridge, and Webots controller
 
 ## 📋 Prerequisites
 
 - **Webots R2025a** (or compatible version)
 - **ROS2 Jazzy** (or compatible distribution)
-- **Ubuntu 22.04+** (or compatible Linux distribution)
 - **C++ compiler** (g++)
 - **Python 3.12+**
 
@@ -196,15 +194,6 @@ Keyboard Input → ROS2 Node → /cmd_vel Topic → Bridge Node → FIFO → C++
 5. C++ controller reads from FIFO (non-blocking)
 6. Controller computes differential wheel speeds
 7. Motor velocities applied in Webots simulation
-
-## 🔬 Technical Details
-
-### Robot Specifications
-- **Type**: 4-wheel differential drive
-- **Wheel radius**: 0.05m
-- **Wheel separation**: 0.3m (left-right)
-- **Mass**: 8kg (chassis) + 0.5kg per wheel
-- **Max velocity**: 20 rad/s per motor
 
 ### Differential Drive Kinematics
 ```cpp

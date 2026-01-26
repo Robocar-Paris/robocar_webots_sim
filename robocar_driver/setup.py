@@ -1,4 +1,5 @@
 from setuptools import find_packages, setup
+import os
 
 package_name = 'robocar_driver'
 
@@ -10,6 +11,10 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        (os.path.join('share', package_name, 'resource'),
+            ['resource/robocar.urdf']),
+        (os.path.join('share', package_name, 'launch'),
+            ['launch/robot_launch.py']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -20,7 +25,10 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-          'test_node = robocar_driver.test_node:main',
+            'test_node = robocar_driver.test_node:main',
+            'rl_trainer = robocar_driver.rl_environment:main',
+            'keyboard_controller = robocar_driver.keyboard_controller:main',
+            'webots_bridge = robocar_driver.webots_bridge:main',
         ],
     },
 )
