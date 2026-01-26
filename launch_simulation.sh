@@ -46,7 +46,7 @@ echo -e "${GREEN}[1/4]${NC} Launching ${YELLOW}Webots${NC}..."
 /usr/local/webots/webots worlds/training_world.wbt > /tmp/robocar_webots.log 2>&1 &
 WEBOTS_PID=$!
 
-echo -e "${YELLOW}Wait for the robot to appear in Webots and the message `` to appear, then press ENTER...${NC}"
+echo -e "${YELLOW}Wait for the robot to appear in Webots and the message `INFO: 'Robocar' extern controller: Waiting for local or remote connection on port 1234 targeting robot named 'Robocar'.` to appear, then press ENTER...${NC}"
 read
 
 # 2. Launch C++ controller with FIFO input

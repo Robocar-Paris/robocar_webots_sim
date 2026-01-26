@@ -7,6 +7,8 @@ import sys
 import termios
 import tty
 import select
+import threading
+import time
 
 class KeyboardController(Node):
     def __init__(self):
@@ -21,14 +23,16 @@ class KeyboardController(Node):
         
         self.max_speed = 10.0
         self.speed_increment = 1.0
-        self.max_turn_speed = 3.0
+        self.max_turn_speed = 5.0
         
-        self.linear_acceleration = 0.2
-        self.angular_acceleration = 0.25
-
+        self.linear_acceleration = 0.3
+        self.angular_acceleration = 0.4
+        
         self.angular_decay = 0.88
         
-        self.timer = self.create_timer(0.02, self.update_and_publish)  # 50Hz
+        self.turn_active = False
+        
+        self.timer = self.create_timer(0.01, self.update_and_publish)
         
         self.last_linear = 0.0
         self.last_angular = 0.0
@@ -36,15 +40,15 @@ class KeyboardController(Node):
         self.get_logger().info('Keyboard Controller started!')
         self.get_logger().info('''
 Controls:
-  W/S - Forward/Backward (increase/decrease speed)
-  A/D - Turn left/right (HOLD to maintain turn)
-  Q/E - Decrease/Increase max speed
-  SPACE - Stop all
+  W/S - Forward/Backward
+  A/D - Turn left/right (HOLD)
+  Q/E - Speed adjustment
+  SPACE - Stop
   ESC - Exit
 ''')
 
     def smooth_transition(self, current, target, acceleration):
-        """Transition progressive vers la vitesse cible"""
+        """Transition progressive"""
         diff = target - current
         
         if abs(diff) < acceleration:
@@ -55,7 +59,7 @@ Controls:
             return current - acceleration
 
     def update_and_publish(self):
-        """Mettre à jour les vitesses avec accélération progressive et publier"""
+        """Mettre à jour et publier rapidement"""
         self.current_linear = self.smooth_transition(
             self.current_linear, 
             self.target_linear, 
@@ -67,12 +71,12 @@ Controls:
             self.target_angular, 
             self.angular_acceleration
         )
-        
+
         twist = Twist()
         twist.linear.x = self.current_linear
         twist.angular.z = self.current_angular
         self.publisher.publish(twist)
-        
+
         if (abs(self.current_linear - self.last_linear) > 0.2 or
             abs(self.current_angular - self.last_angular) > 0.2):
             self.get_logger().info(
@@ -81,22 +85,17 @@ Controls:
             self.last_linear = self.current_linear
             self.last_angular = self.current_angular
 
-    def run(self):
+    def keyboard_thread(self):
+        """Thread séparé pour la lecture du clavier"""
         old_settings = termios.tcgetattr(sys.stdin)
         try:
             tty.setcbreak(sys.stdin.fileno())
             
-            last_key_time = {}
-            
             while rclpy.ok():
-                key_pressed = False
-                
-                if select.select([sys.stdin], [], [], 0.01)[0]:
+                if select.select([sys.stdin], [], [], 0.001)[0]:
                     key = sys.stdin.read(1)
-                    key_pressed = True
                     
                     if key == '\x1b':  # ESC
-                        self.get_logger().info('Exiting...')
                         break
                     
                     elif key == 'w' or key == 'W':
@@ -109,9 +108,11 @@ Controls:
                     
                     elif key == 'a' or key == 'A':
                         self.target_angular = self.max_turn_speed
+                        self.turn_active = True
                     
                     elif key == 'd' or key == 'D':
                         self.target_angular = -self.max_turn_speed
+                        self.turn_active = True
                     
                     elif key == 'q' or key == 'Q':
                         self.max_speed = max(1.0, self.max_speed - 1.0)
@@ -124,20 +125,28 @@ Controls:
                     elif key == ' ':
                         self.target_linear = 0.0
                         self.target_angular = 0.0
+                        self.turn_active = False
                         self.get_logger().info('STOP')
                 
-                if not key_pressed or (key_pressed and key.lower() not in ['a', 'd']):
+                if self.turn_active:
+                    self.turn_active = False
+                else:
                     if abs(self.target_angular) > 0.01:
                         self.target_angular *= self.angular_decay
-                        if abs(self.target_angular) < 0.01:
-                            self.target_angular = 0.0
-
-                rclpy.spin_once(self, timeout_sec=0)
+                    else:
+                        self.target_angular = 0.0
                 
         finally:
             termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_settings)
-            twist = Twist()
-            self.publisher.publish(twist)
+
+    def run(self):
+        """Démarrer le contrôle au clavier"""
+        kb_thread = threading.Thread(target=self.keyboard_thread, daemon=True)
+        kb_thread.start()
+
+        while rclpy.ok():
+            rclpy.spin_once(self, timeout_sec=0.001)
+            time.sleep(0.001)
 
 def main(args=None):
     rclpy.init(args=args)
