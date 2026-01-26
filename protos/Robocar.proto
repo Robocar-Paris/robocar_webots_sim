@@ -4,7 +4,7 @@ PROTO Robocar [
   field SFVec3f    translation  0 0.2 0
   field SFRotation rotation     0 0 1 0
   field SFString   name         "Robocar"
-  field SFString   controller   "robot_move_forward" 
+  field SFString   controller   "<extern>"
 ]
 {
   Robot {
@@ -40,7 +40,7 @@ PROTO Robocar [
       # --- ROUES ---
       HingeJoint {
         jointParameters HingeJointParameters { axis 0 0 1 anchor 0.18 0.03 0.15 }
-        device [ RotationalMotor { name "wheel1" } ]
+        device [ RotationalMotor { name "wheel1" maxVelocity 20 maxTorque 100 } ]
         endPoint Solid {
           name "front left wheel"
           translation 0.18 0.03 0.15
@@ -69,7 +69,7 @@ PROTO Robocar [
       
       HingeJoint {
         jointParameters HingeJointParameters { axis 0 0 1 anchor 0.18 0.03 -0.15 }
-        device [ RotationalMotor { name "wheel2" } ]
+        device [ RotationalMotor { name "wheel2" maxVelocity 20 maxTorque 100 } ]
         endPoint Solid {
           name "front right wheel"
           translation 0.18 0.03 -0.15
@@ -83,7 +83,7 @@ PROTO Robocar [
   
       HingeJoint {
         jointParameters HingeJointParameters { axis 0 0 1 anchor -0.18 0.03 0.15 }
-        device [ RotationalMotor { name "wheel3" } ]
+        device [ RotationalMotor { name "wheel3" maxVelocity 20 maxTorque 100 } ]
         endPoint Solid {
           name "rear left wheel"
           translation -0.18 0.03 0.15
@@ -97,7 +97,7 @@ PROTO Robocar [
 
       HingeJoint {
         jointParameters HingeJointParameters { axis 0 0 1 anchor -0.18 0.03 -0.15 }
-        device [ RotationalMotor { name "wheel4" } ]
+        device [ RotationalMotor { name "wheel4" maxVelocity 20 maxTorque 100 } ]
         endPoint Solid {
           name "rear right wheel"
           translation -0.18 0.03 -0.15

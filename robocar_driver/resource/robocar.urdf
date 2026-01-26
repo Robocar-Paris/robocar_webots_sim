@@ -1,0 +1,98 @@
+<?xml version="1.0" ?>
+<robot name="Robocar">
+  <!-- Base Link (WITHOUT INERTIA) -->
+  <link name="base_link"/>
+
+  <!-- Chassis Link (with inertia) -->
+  <link name="chassis_link">
+    <inertial>
+      <mass value="8.0"/>
+      <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+    </inertial>
+  </link>
+
+  <joint name="base_to_chassis" type="fixed">
+    <parent link="base_link"/>
+    <child link="chassis_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Wheels (4x) -->
+  <link name="wheel1_link">
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <link name="wheel2_link">
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <link name="wheel3_link">
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <link name="wheel4_link">
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <!-- Joints -->
+  <joint name="wheel1_joint" type="revolute">
+    <parent link="chassis_link"/>
+    <child link="wheel1_link"/>
+    <origin xyz="0.18 0.03 0.15" rpy="1.57 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14159" upper="3.14159" effort="10" velocity="10"/>
+  </joint>
+
+  <joint name="wheel2_joint" type="revolute">
+    <parent link="chassis_link"/>
+    <child link="wheel2_link"/>
+    <origin xyz="0.18 0.03 -0.15" rpy="1.57 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14159" upper="3.14159" effort="10" velocity="10"/>
+  </joint>
+
+  <joint name="wheel3_joint" type="revolute">
+    <parent link="chassis_link"/>
+    <child link="wheel3_link"/>
+    <origin xyz="-0.18 0.03 0.15" rpy="1.57 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14159" upper="3.14159" effort="10" velocity="10"/>
+  </joint>
+
+  <joint name="wheel4_joint" type="revolute">
+    <parent link="chassis_link"/>
+    <child link="wheel4_link"/>
+    <origin xyz="-0.18 0.03 -0.15" rpy="1.57 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14159" upper="3.14159" effort="10" velocity="10"/>
+  </joint>
+
+  <!-- Webots Motors -->
+  <webots>
+    <motor name="wheel1">
+      <joint>wheel1_joint</joint>
+    </motor>
+    <motor name="wheel2">
+      <joint>wheel2_joint</joint>
+    </motor>
+    <motor name="wheel3">
+      <joint>wheel3_joint</joint>
+    </motor>
+    <motor name="wheel4">
+      <joint>wheel4_joint</joint>
+    </motor>
+  </webots>
+</robot>
+

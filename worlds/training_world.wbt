@@ -7,6 +7,7 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/project
 EXTERNPROTO "../protos/Robocar.proto"
 
 WorldInfo {
+  basicTimeStep 16
   contactProperties [
     ContactProperties {
       material1 "wheel"
@@ -34,10 +35,11 @@ RectangleArena {
   floorTileSize 1 1
 }
 Robocar {
-  hidden position_0_0 -1.7462272686614842e-14
-  hidden position_0_1 -1.859874874345756e-12
-  hidden position_0_2 -1.7073969331368743e-14
-  hidden position_0_3 1.8601963994227915e-12
-  translation 2.14124e-10 0.501869 0.026076
-  rotation 1 -2.777963560621184e-12 -2.7779513528707585e-12 1.5707963267948961
+  hidden position_0_0 -1.6182863545346838e-14
+  hidden position_0_1 -1.8589568097630235e-12
+  hidden position_0_2 -1.7369536353521635e-14
+  hidden position_0_3 1.8593073235379007e-12
+  translation 2.1412406515382392e-10 0.5018689999999999 0.018006608000000007
+  rotation 1 -2.7773317265415492e-12 -2.777210781739977e-12 1.5707963267948966
+  controller "<extern>"
 }
